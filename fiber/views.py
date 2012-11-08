@@ -9,7 +9,10 @@ from .mixins import FiberPageMixin
 class FiberTemplateView(FiberPageMixin, TemplateView):
 
     def get_fiber_page_url(self):
-        return self.request.path_info
+        path = self.kwargs.get("path")
+        if path is None:
+            path = self.request.path_info
+        return path
 
     def get_template_names(self):
         if self.get_fiber_page() and self.get_fiber_page().template_name not in [None, '']:
